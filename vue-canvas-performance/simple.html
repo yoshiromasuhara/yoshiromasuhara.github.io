@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue-canvas-performance-simple</title>
+    <style type="text/css">
+      canvas {
+        z-index: -1;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+    </div>
+    <script type="text/javascript">
+      !function(global){
+          "use strict"
+
+          var canvasnum = 30
+          var circlenum = 100
+
+          var elmapp = document.getElementById("app"); 
+          for (var i = 0; i < canvasnum; i++) {
+            var elmcvs = document.createElement('canvas');
+            elmcvs.id = 'cvs_'+i;
+            elmapp.appendChild(elmcvs);
+          }
+
+          window.onload =(function(){
+            var maxWidth = document.documentElement.clientWidth
+            var maxHeight = document.documentElement.clientHeight
+
+            for (var cvsnum = 0; cvsnum < canvasnum; cvsnum++) {
+              (function(){
+                var cvs = document.getElementById('cvs_' + cvsnum)
+                cvs.width = maxWidth
+                cvs.height = maxHeight
+                var ctx = cvs.getContext('2d')
+                var rgba = 'rgba(' + Math.floor(Math.random() * 200) + ', ' + Math.floor(Math.random() * 200) + ', ' + Math.floor(Math.random() * 200) + ', 0.9)'
+
+                var animation = (function(){
+                  ctx.clearRect(0, 0, maxWidth, maxHeight)
+
+                  for (var i = 0; i < 1; i++) {
+                    var l = Math.floor(Math.random() * maxWidth)
+                    var t = Math.floor(Math.random() * maxHeight)
+
+                    ctx.beginPath()
+                    ctx.arc(l, t, 10, 0, 2 * Math.PI)
+                    ctx.fillStyle = rgba
+                    ctx.fill()
+                    ctx.closePath()
+                  }
+                  window.requestAnimationFrame(animation)
+                })
+                animation()
+              })()
+            }
+          })
+      }((this || 0).self || global)
+    </script>
+  </body>
+</html>
